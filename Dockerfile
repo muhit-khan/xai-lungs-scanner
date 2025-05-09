@@ -7,6 +7,8 @@ ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=app.py
 ENV PORT=5000
 ENV HOST=0.0.0.0
+# Suppress TensorFlow INFO and WARNING messages (0=all, 1=filter INFO, 2=filter WARNING, 3=filter ERROR)
+ENV TF_CPP_MIN_LOG_LEVEL=2
 
 # Create a non-root user and group
 RUN groupadd -r appgroup && useradd -r -g appgroup -m appuser
