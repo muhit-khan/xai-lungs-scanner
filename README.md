@@ -53,9 +53,19 @@ This API uses an ensemble of pretrained convolutional neural networks (CNNs) and
 
 1. Start the API server:
 
+   Using Python directly:
+
    ```bash
-   python app.py
+   python run_app.py
    ```
+
+   Or, if you prefer to generate placeholder models first (useful for initial setup or if models are missing):
+
+   ```bash
+   python run_app.py --generate-models
+   ```
+
+   Alternatively, use Docker (see Docker Usage section below).
 
 2. Access the API documentation:
 
@@ -75,6 +85,81 @@ This API uses an ensemble of pretrained convolutional neural networks (CNNs) and
 - `GET /`: API documentation
 - `POST /predict`: Submit a chest X-ray image for disease prediction
 - `GET /results/{filename}`: Retrieve a result file (e.g., Grad-CAM visualization)
+- `GET /status`: Check API and model status
+
+## Docker Usage
+
+This application can be run inside a Docker container.
+
+### Prerequisites
+
+- Docker installed on your system.
+
+### Building the Docker Image
+
+1.  Navigate to the project root directory (where the `Dockerfile` is located).
+2.  Build the Docker image:
+
+    ```bash
+    docker build -t xai-lungs-scanner .
+    ```
+
+### Running the Docker Container
+
+1.  Run the container, mapping the port and mounting volumes for persistent data (uploads, results, logs, models):
+
+    ```bash
+    docker run -d \
+      -p 5000:5000 \
+      -v $(pwd)/uploads:/app/uploads \
+      -v $(pwd)/results:/app/results \
+      -v $(pwd)/logs:/app/logs \
+      -v $(pwd)/models/pretrained:/app/models/pretrained \
+      -v $(pwd)/config:/app/config \
+      --name xai-scanner-app \
+      xai-lungs-scanner
+    ```
+
+    **Explanation of options:**
+
+    - `-d`: Run in detached mode (background).
+    - `-p 5000:5000`: Map port 5000 on the host to port 5000 in the container.
+    - `-v $(pwd)/uploads:/app/uploads`: Mount the local `uploads` directory to `/app/uploads` in the container.
+    - `-v $(pwd)/results:/app/results`: Mount the local `results` directory to `/app/results` in the container.
+    - `-v $(pwd)/logs:/app/logs`: Mount the local `logs` directory to `/app/logs` in the container.
+    - `-v $(pwd)/models/pretrained:/app/models/pretrained`: Mount your local pretrained models into the container.
+    - `-v $(pwd)/config:/app/config`: Mount your local config directory (for `api_keys.json`) into the container.
+    - `--name xai-scanner-app`: Assign a name to the container for easier management.
+    - `xai-lungs-scanner`: The name of the image to use.
+
+    **Note for Windows users:** Replace `$(pwd)` with `%cd%` or the absolute path to your project directory.
+
+2.  The API will be accessible at `http://localhost:5000`.
+
+### Managing the Container
+
+- **View logs:**
+  ```bash
+  docker logs xai-scanner-app
+  ```
+- **Stop the container:**
+  ```bash
+  docker stop xai-scanner-app
+  ```
+- **Start a stopped container:**
+  ```bash
+  docker start xai-scanner-app
+  ```
+- **Remove the container (after stopping):**
+  ```bash
+  docker rm xai-scanner-app
+  ```
+
+### Accessing Shell inside the Container (for debugging)
+
+    ```bash
+    docker exec -it xai-scanner-app /bin/bash
+    ```
 
 ## Project Structure
 

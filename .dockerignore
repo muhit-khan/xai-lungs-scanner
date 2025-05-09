@@ -1,0 +1,63 @@
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Docker files
+Dockerfile
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Test, debug, and local run files
+test_images/
+debug.py
+# run_app.py # Not strictly needed if using Gunicorn via Docker CMD
+
+# Runtime data - should be generated inside container or mounted as volumes
+uploads/
+results/
+logs/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor configuration
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and local instance data
+*.log
+instance/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Other development files
+README.md
+LICENSE
+pip-log.txt
