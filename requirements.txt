@@ -16,3 +16,6 @@ requests
 gunicorn
 psycopg2-binary
 scikit-learn==1.2.2
+seaborn
+tqdm
+fpdf2
